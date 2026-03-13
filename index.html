@@ -3,84 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নামাজের সময় বিরতি</title>
+    <title>Gmail & Password জেনারেটর (Advanced)</title>
     <style>
-        body {
-            background-color: #000; /* কালো ব্যাকগ্রাউন্ড ঝিকিমিকি ফুটিয়ে তোলার জন্য */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body { 
+            background: #f0f2f5; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 10px;
+        }
+
+        .main-wrapper {
             display: flex;
+            flex-direction: row;
+            gap: 10px;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'SolaimanLipi', Arial, sans-serif;
-            overflow: hidden;
-            color: white;
-            text-align: center;
-        }
-
-        .container {
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            animation: glow 1.5s ease-in-out infinite alternate;
-        }
-
-        p {
-            font-size: 1.5rem;
-            line-height: 1.6;
-            animation: blink 2s linear infinite;
-        }
-
-        /* ঝিকিমিকি বা গ্লোয়িং অ্যানিমেশন */
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073;
-                color: #fff;
-            }
-            to {
-                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6;
-                color: #ffd700; /* সোনালী রঙ */
-            }
-        }
-
-        /* লেখা আসা-যাওয়ার (Blink) অ্যানিমেশন */
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-
-        /* ছোট ছোট তারার মতো ঝিকিমিকি ব্যাকগ্রাউন্ড ইফেক্ট */
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
+            align-items: flex-start;
             width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
-            background-size: 50px 50px;
-            animation: moveStars 10s linear infinite;
+            max-width: 700px;
+        }
+        
+        .container { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            padding: 15px; 
+            flex: 1; 
+            min-width: 160px;
+        }
+        
+        h1 { color: #333; font-size: 14px; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        
+        .input-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 4px; font-size: 10px; color: #666; font-weight: bold; }
+        
+        input { 
+            width: 100%; 
+            padding: 6px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 11px; 
+            outline: none;
         }
 
-        @keyframes moveStars {
-            from { background-position: 0 0; }
-            to { background-position: 100px 100px; }
+        .generate-btn { 
+            width: 100%; 
+            padding: 8px; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 11px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-bottom: 10px;
+        }
+        
+        .btn-gmail { background: #6200ee; }
+        .btn-pass { background: #03dac6; color: #000; }
+
+        .result-box { 
+            background: #f9f9f9; 
+            border: 1px dashed #6200ee; 
+            border-radius: 6px; 
+            padding: 8px; 
+            margin-bottom: 10px; 
+            text-align: center; 
+        }
+
+        .generated-text { 
+            font-size: 11px; 
+            font-weight: 600; 
+            color: #222; 
+            word-break: break-all; 
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .copy-btn { 
+            padding: 4px; 
+            background: #28a745; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 10px; 
+            width: 100%; 
+        }
+
+        .history-section { border-top: 1px solid #eee; padding-top: 8px; }
+        .history-title { font-size: 9px; display: flex; justify-content: space-between; margin-bottom: 5px; color: #888; }
+        .clear-btn { color: #dc3545; background: none; border: none; font-size: 9px; cursor: pointer; font-weight: bold; }
+        
+        .history-list { 
+            list-style: none; 
+            max-height: 80px; 
+            overflow-y: auto; 
+            font-size: 10px; 
+            background: #fafafa;
+        }
+        .history-item { padding: 4px; border-bottom: 1px solid #eee; text-align: center; color: #555; }
+
+        @media (max-width: 400px) {
+            .main-wrapper { gap: 5px; }
+            .container { padding: 10px; }
+            h1 { font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="stars"></div>
+    <div class="main-wrapper">
+        
+        <div class="container">
+            <h1>📧 Gmail</h1>
+            <div class="input-group">
+                <label>Gmail লিখুন:</label>
+                <input type="email" id="baseEmail" placeholder="example@gmail.com">
+            </div>
+            <button class="generate-btn btn-gmail" onclick="generateAlias()">তৈরি করুন</button>
+            <div class="result-box" id="resultBox" style="display: none;">
+                <span class="generated-text" id="generatedEmail"></span>
+                <button class="copy-btn" id="copyEmailBtn" onclick="copyToClipboard('generatedEmail', 'copyEmailBtn')">কপি</button>
+            </div>
+            <div class="history-section">
+                <div class="history-title">
+                    <span>📋 ইতিহাস</span>
+                    <button class="clear-btn" onclick="clearHistory('gmail')">মুছুন</button>
+                </div>
+                <ul class="history-list" id="historyList"></ul>
+            </div>
+        </div>
 
-    <div class="container">
-        <h1>🕌 আযানের সময় হয়েছে</h1>
-        <p>নামাজ পড়তে যান সবাই।<br>
-        অ্যাপসটি এখন বন্ধ থাকবে, নামাজ শেষে আবার খোলা হবে।</p>
+        <div class="container">
+            <h1>🔐 পাসওয়ার্ড</h1>
+            <div class="input-group">
+                <label>দৈর্ঘ্য (৬-১২):</label>
+                <input type="number" id="passLength" min="6" max="12" value="8">
+            </div>
+            <button class="generate-btn btn-pass" onclick="generatePassword()">তৈরি করুন</button>
+            <div class="result-box" id="passResultBox" style="display: none;">
+                <span class="generated-text" id="generatedPass"></span>
+                <button class="copy-btn" id="copyPassBtn" onclick="copyToClipboard('generatedPass', 'copyPassBtn')">কপি</button>
+            </div>
+            <div class="history-section">
+                <div class="history-title">
+                    <span>📋 ইতিহাস</span>
+                    <button class="clear-btn" onclick="clearHistory('pass')">মুছুন</button>
+                </div>
+                <ul class="history-list" id="passHistoryList"></ul>
+            </div>
+        </div>
+
     </div>
 
+    <textarea id="hiddenCopyText" readonly style="position: absolute; left: -9999px;"></textarea>
+
+    <script>
+        let usedAliases = JSON.parse(localStorage.getItem('gmailAliases')) || [];
+        let usedPasswords = JSON.parse(localStorage.getItem('passHistory')) || [];
+        
+        updateHistoryDisplay();
+        updatePassHistoryDisplay();
+
+        function generateAlias() {
+            const emailInput = document.getElementById('baseEmail');
+            const baseEmail = emailInput.value.trim();
+            if (!baseEmail || !baseEmail.includes('@gmail.com')) {
+                alert('সঠিক Gmail দিন'); return;
+            }
+
+            let [username, domain] = baseEmail.split('@');
+
+            // ১. ডট ট্রিক (এলোমেলো জায়গায় ডট বসানো)
+            let dottedUsername = "";
+            for (let i = 0; i < username.length; i++) {
+                dottedUsername += username[i];
+                // শেষ অক্ষরের আগে এবং ৫০% চান্সে ডট বসাবে
+                if (i < username.length - 1 && Math.random() > 0.5) {
+                    dottedUsername += ".";
+                }
+            }
+
+            // ২. প্লাসের পর ২ থেকে ১০ অক্ষরের র‍্যান্ডম কোড তৈরি
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            const randomLength = Math.floor(Math.random() * 9) + 2; // ২ থেকে ১০ এর মধ্যে
+            let randomSuffix = "";
+            for (let i = 0; i < randomLength; i++) {
+                randomSuffix += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            const newAlias = `${dottedUsername}+${randomSuffix}@${domain}`;
+            
+            usedAliases.unshift(newAlias);
+            if(usedAliases.length > 5) usedAliases.pop();
+            localStorage.setItem('gmailAliases', JSON.stringify(usedAliases));
+            
+            document.getElementById('generatedEmail').textContent = newAlias;
+            document.getElementById('resultBox').style.display = 'block';
+            updateHistoryDisplay();
+        }
+
+        function generatePassword() {
+            const len = Math.min(Math.max(parseInt(document.getElementById('passLength').value) || 8, 6), 12);
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%";
+            let retVal = "";
+            for (let i = 0; i < len; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            usedPasswords.unshift(retVal);
+            if(usedPasswords.length > 5) usedPasswords.pop();
+            localStorage.setItem('passHistory', JSON.stringify(usedPasswords));
+            document.getElementById('generatedPass').textContent = retVal;
+            document.getElementById('passResultBox').style.display = 'block';
+            updatePassHistoryDisplay();
+        }
+
+        function copyToClipboard(elementId, btnId) {
+            const text = document.getElementById(elementId).textContent;
+            const btn = document.getElementById(btnId);
+            const hiddenArea = document.getElementById('hiddenCopyText');
+            hiddenArea.value = text;
+            hiddenArea.select();
+            document.execCommand('copy');
+            const oldText = btn.textContent;
+            btn.textContent = '✅';
+            setTimeout(() => btn.textContent = oldText, 1000);
+        }
+
+        function updateHistoryDisplay() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = usedAliases.map(a => `<li class="history-item">${a}</li>`).join('') || '<li style="color:#ccc;text-align:center">খালি</li>';
+        }
+
+        function updatePassHistoryDisplay() {
+            const list = document.getElementById('passHistoryList');
+            list.innerHTML = usedPasswords.map(p => `<li class="history-item">${p}</li>`).join('') || '<li style="color:#ccc;text-align:center">খালি</li>';
+        }
+
+        function clearHistory(type) {
+            if(confirm('মুছে ফেলবেন?')) {
+                if(type === 'gmail') { usedAliases = []; localStorage.removeItem('gmailAliases'); updateHistoryDisplay(); }
+                else { usedPasswords = []; localStorage.removeItem('passHistory'); updatePassHistoryDisplay(); }
+            }
+        }
+    </script>
 </body>
 </html>
