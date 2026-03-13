@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নামাজের সময় বিরতি</title>
+    <style>
+        body {
+            background-color: #000; /* কালো ব্যাকগ্রাউন্ড ঝিকিমিকি ফুটিয়ে তোলার জন্য */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            animation: blink 2s linear infinite;
+        }
+
+        /* ঝিকিমিকি বা গ্লোয়িং অ্যানিমেশন */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073;
+                color: #fff;
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6;
+                color: #ffd700; /* সোনালী রঙ */
+            }
+        }
+
+        /* লেখা আসা-যাওয়ার (Blink) অ্যানিমেশন */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* ছোট ছোট তারার মতো ঝিকিমিকি ব্যাকগ্রাউন্ড ইফেক্ট */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 50px 50px;
+            animation: moveStars 10s linear infinite;
+        }
+
+        @keyframes moveStars {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div class="container">
+        <h1>🕌 আযানের সময় হয়েছে</h1>
+        <p>নামাজ পড়তে যান সবাই।<br>
+        অ্যাপসটি এখন বন্ধ থাকবে, নামাজ শেষে আবার খোলা হবে।</p>
+    </div>
+
+</body>
+</html>
